@@ -7,12 +7,39 @@
 //
 
 #import "LGAppDelegate.h"
+#import <LGInternationalization/LanguageChange.h>
+#import <LGInternationalization/Language.h>
+#import "HomeViewController.h"
+#import "MeViewController.h"
+@interface LGAppDelegate()<LanguageChange, TabBarControllerDelegate>
 
+@end
 @implementation LGAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window = window;
+    _tabBarController = [[TabBarController alloc] init];
+    _tabBarController.delegate = self;
+    _tabBarController.viewControllers = @[NSStringFromClass([HomeViewController class]),NSStringFromClass([MeViewController class])];
+    _tabBarController.tabItemImages = @[@"today",@"me"];
+    _tabBarController.tabItemTitles = @[kLang(@"Home"),kLang(@"Me")];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.tabBarController.rdvTabBarController];
+    
+    UIColor *bgColor = THEMECOLOR;
+    [[UINavigationBar appearance] setBarTintColor:bgColor];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"backicon.png"]];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"backicon.png"]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont systemFontOfSize:navi_bar_textsize]}];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    _tabBarController.nav = nav;
+    self.window.rootViewController = nav;
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -160)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -42,5 +69,14 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
+#pragma mark -<LanguageChange>
+- (void)reloadUIWhenLanguageChange {
+    self.tabBarController.tabItemTitles = @[kLang(@"Home"),kLang(@"Me")];
+    [self.tabBarController reloadUIWhenLanguageChange];
+    
+}
+#pragma mark - <TabBarControllerDelegate>
+- (void)tabBarController:(TabBarController *)tabBarController didSelectIndex:(NSInteger)index {
+    
+}
 @end

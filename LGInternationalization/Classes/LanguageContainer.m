@@ -43,7 +43,7 @@
 - (void)removeLanguageChangeAllControllers {
     [self.controllerContains removeAllObjects];
 }
-- (void)reloadUI:(void (^)())beginblock completBlock:(void (^)(void))completblock {
+- (void)reloadUI:(void (^)(void))beginblock completBlock:(void (^)(void))completblock {
     if (beginblock) {
         beginblock();
     }

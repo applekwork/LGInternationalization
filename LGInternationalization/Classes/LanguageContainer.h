@@ -15,5 +15,5 @@
 - (void)removeLanguageChangeController:(NSObject<LanguageChange> *)vc;
 //删除所有添加到多语言中的控制器
 - (void)removeLanguageChangeAllControllers;
-- (void)reloadUI:(void (^)())beginblock completBlock:(void (^)(void))completblock;
+- (void)reloadUI:(void (^)(void))beginblock completBlock:(void (^)(void))completblock;
 @end
